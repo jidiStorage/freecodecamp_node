@@ -9,6 +9,10 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 
+// var date2015=require('./api/2015-12-25');
+// var date1451=require('./routers/1451');
+var date2utc=require('./routers/date2utc');
+
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
     var allowedOrigins = ['https://narrow-plane.gomix.me', 'https://www.freecodecamp.com'];
@@ -36,7 +40,11 @@ app.route('/_api/package.json')
 app.route('/')
     .get(function(req, res) {
 		  res.sendFile(process.cwd() + '/views/index.html');
-    })
+    });
+
+
+app.use('*/api',date2utc)
+
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
